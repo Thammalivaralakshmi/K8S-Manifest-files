@@ -1,0 +1,53 @@
+apiVersion: v1
+kind: Pod
+metadata: 
+  name: nginx-sidecar
+spec:
+  containers:
+    - name: nginx-sidecar-container
+      image: nginx:latest
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: shared-log
+          mountPath: /var/log/nginx
+
+    - name: log-tailer
+      image: busybox # an image used for logs
+      command: ["sh", "-c"] # the logs will be in access.log
+      args: ["tail -f /var/log/nginx/access.log"]
+      volumeMounts:
+        - name: shared-log
+          mountPath: /var/log/nginx
+# we need to mount this volume here because we are printing the last 10 orr 20 logs but from where the data should be get to print that's why we need to mount the volume in log container as well
+
+volumes:
+  - name: shared-log #name of the volume
+    emptyDir : {} # this directory will be available till the pod is available
+    # to store the logs we need to mount this volume to both the containers.
+
+#     apiVersion: v1
+# kind: Pod
+# metadata:
+#   name: nginx-sidecar
+# spec:
+#   containers:
+#     - name: nginx-sidecar-container
+#       image: nginx:latest
+#       ports:
+#         - containerPort: 80
+#       volumeMounts:
+#         - name: shared-log
+#           mountPath: /var/log/nginx
+
+#     - name: log-tailer
+#       image: busybox
+#       command: ["sh", "-c"]
+#       args: ["tail -f /var/log/nginx/access.log"]
+#       volumeMounts:
+#         - name: shared-log
+#           mountPath: /var/log/nginx
+
+#   volumes:
+#     - name: shared-log
+#       emptyDir: {}

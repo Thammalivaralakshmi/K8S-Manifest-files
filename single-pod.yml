@@ -1,0 +1,11 @@
+# to get api Version use command kubectl explain pod.apiVersion
+apiVersion: v1
+kind: Pod # kind represents what we want to create 
+metadata: 
+  name: single-container-pod #Name of the pod
+spec:
+  containers:
+    - name: nginx-single-container #container name
+      image: nginx:latest
+      ports:
+        - containerPort: 80
