@@ -1,0 +1,27 @@
+---
+- name: Installing nginx
+  hosts: all
+  become: yes
+  tasks:
+    - name: install nginx
+      yum:
+        name: nginx
+        state: present 
+
+    - name: starting nginx 
+      service:
+        name: nginx
+        state: started
+        enabled: yes # used to auto start nginx  
+    
+    - name: deploying a sample html code file
+      copy:
+        src: index.html
+        dest: /usr/share/nginx/html/index.html
+    
+    - name: Restarting the service 
+      service:
+        name: nginx
+        state: restarted
+        enabled: yes
+...

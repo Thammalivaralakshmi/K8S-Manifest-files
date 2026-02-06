@@ -1,0 +1,44 @@
+---
+- name: Appache Installation and configuration Playbook
+  hosts: all
+  become: yes
+  tasks:
+    - name: installing Appache
+      yum:
+        name: httpd
+        state: present
+
+    - name: pringting message
+      debug:
+        msg: "Apache installed"
+        
+    - name: Starting Appache
+      service:
+        name: httpd
+        state: started
+
+    - name: Installing git
+      yum:
+        name: git
+        state: present 
+
+    - name: Installing Docker
+      yum:
+        name: docker
+        state: present 
+
+    - name: Starting Server Docker
+      service:
+        name: Docker
+        state: started
+
+    - name: Copying the file
+      copy:
+        src: file.txt
+        dest: /home/ec2-user
+
+    - name: Creating an user
+      user:
+        name: vara
+        state: present
+...

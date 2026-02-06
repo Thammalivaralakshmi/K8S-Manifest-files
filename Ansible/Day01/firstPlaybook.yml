@@ -1,0 +1,7 @@
+---
+- name: Playbook to check the connectivity between the servers
+  hosts: all
+  tasks:
+    - name: Testing the connectivity
+      ping:
+...

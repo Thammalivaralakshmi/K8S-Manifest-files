@@ -1,0 +1,13 @@
+---
+- name: Playbook to install Apache
+  hosts: dev-servers
+  become: yes # to make the current user as root while running the playbook
+  tasks:
+    - name: Installation of Apache
+      yum:
+        name: httpd
+        state: present 
+    - name: Print Message
+      debug: # debug is the module name to print a message
+        msg: "Apche is successfully installed"
+...
