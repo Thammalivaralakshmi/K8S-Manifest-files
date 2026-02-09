@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-app-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: spring-app
+  template:
+    metadata:
+      labels:
+        app: spring-app
+    spec:
+      containers:
+        - name: spring-app-container
+          image: varacontainers/spring-app:2.0
+          ports:
+            - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-app-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: spring-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

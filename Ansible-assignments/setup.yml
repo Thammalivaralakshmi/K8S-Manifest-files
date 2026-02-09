@@ -1,0 +1,24 @@
+---
+- name: Setting up Java Maven Build Server
+  hosts: agent-server
+  become: yes
+
+  tasks:
+    - name: Update dnf packages
+      dnf:
+        update_cache: yes
+
+    - name: Install Amazon Corretto 17
+      dnf:
+        name: java-17-amazon-corretto
+        state: present
+
+    - name: Install Maven
+      dnf:
+        name: maven
+        state: present
+
+    - name: Install Git
+      dnf:
+        name: git
+        state: present

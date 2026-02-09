@@ -1,0 +1,25 @@
+---
+- name: Install docker and Run Application container
+  hosts: agent-server
+  become: yes
+  tasks:
+    - name: update yum
+      yum:
+        update_cache: yes 
+    - name: Docker Installation
+      yum:
+        name: docker
+        state: present
+    - name: starting the docker 
+      service:
+        name: docker
+        state: started
+        enabled: yes
+    - name: pull application image from Docker Hub
+      docker_container:
+        name: springApp
+        image: varacontainers/spring-app:2.0
+        state: started
+        ports:
+          - "8081:8080"
+
